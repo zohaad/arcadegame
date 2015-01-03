@@ -20,6 +20,7 @@ http://programarcadegames.com/python_examples/sprite_sheets/
 """
  
 import pygame
+import random
  
 # Global constants
  
@@ -35,6 +36,7 @@ SCREEN_WIDTH  = 800
 SCREEN_HEIGHT = 600
 GAME_NAME = "Pygame Platformer"
 LEVEL_BG = (205, 210, 218)
+DEBUG = True
  
 class Player(pygame.sprite.Sprite):
     """
@@ -106,7 +108,7 @@ class Player(pygame.sprite.Sprite):
         if self.change_y == 0:
             self.change_y = 1
         else:
-            self.change_y += .35
+            self.change_y += .66
  
         # See if we are on the ground.
         if self.rect.y >= SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
@@ -152,7 +154,15 @@ class Platform(pygame.sprite.Sprite):
         self.image = pygame.Surface([width, height])
 
         if imageSrc != False:
-            self.image.fill(LEVEL_BG);
+            if DEBUG:
+                random.seed()
+                r = random.randint(0,255)
+                random.seed()
+                a = random.randint(0,255)
+                random.seed()
+                self.image.fill((a,r,random.randint(0,255)))
+            else:
+                self.image.fill(LEVEL_BG);
             self.image.blit(pygame.image.load(imageSrc).convert_alpha(), (0,0))
         else:
             self.image.fill(GREEN)
@@ -160,7 +170,7 @@ class Platform(pygame.sprite.Sprite):
         if collidable:
             self.rect = self.image.get_rect()
         else:
-            self.rect = pygame.Rect(0,0,0,0)
+            self.rect = pygame.Rect(100000,100000,0,0)
  
 class Level():
     """ This is a generic super-class used to define a level.
@@ -201,8 +211,8 @@ class Level():
     def shift_world(self, shift_x):
         """ When the user moves left/right and we need to scroll everything: """
         
-        if self.platform_list.sprites()[0].rect.x + shift_x > 0:
-            return False;
+        #if self.platform_list.sprites()[0].rect.x + shift_x > 0:
+        #    return False;
         
         # Keep track of the shift amount
         self.world_shift += shift_x
@@ -230,10 +240,15 @@ class Level_01(Level):
  
         # Array with width, height, x, and y of platform
         level = [
-            [603, 249, 0, SCREEN_HEIGHT-249, True, "level1/p1.png"],
             [390, 198, 603, SCREEN_HEIGHT-198, False, "level1/d3.png"],
             [641, 117, 0, SCREEN_HEIGHT-249-117, False, "level1/d1.png"],
+            [246, 33, 606, SCREEN_HEIGHT-246-33, False, "level1/d2.png"],
+            [53, 51, 859, SCREEN_HEIGHT-183-71, True, "level1/p3.png"],
+            [150, 81, 912, SCREEN_HEIGHT-183-71-33, True, "level1/p4.png"],
+            [273, 48, 603, SCREEN_HEIGHT-183-48, True, "level1/p5.png"],
             [252, 9, 603, SCREEN_HEIGHT-246, True, "level1/p2.png"],
+            [603, 249, 0, SCREEN_HEIGHT-249, True, "level1/p1.png"],
+            
         ]
  
         # Go through the array above and add platforms
@@ -278,7 +293,7 @@ def main():
  
     # Set the height and width of the screen
     size = [SCREEN_WIDTH, SCREEN_HEIGHT]
-    screen = pygame.display.set_mode(size) #, pygame.FULLSCREEN)
+    screen = pygame.display.set_mode(size)#, pygame.FULLSCREEN)
     pygame.mouse.set_visible(0)
     pygame.display.set_caption(GAME_NAME)
  
@@ -339,10 +354,10 @@ def main():
         if player.rect.right >= 500:
             diff = player.rect.right - 500
             player.rect.right = 500
+            #print(-diff)
             current_level.shift_world(-diff)
   
         # If the player gets near the left side, shift the world right (+x)
-        print(current_level.world_shift)
         if current_level.world_shift < 0:
             if player.rect.left <= 180:
                 diff = 180 - player.rect.left
@@ -371,7 +386,7 @@ def main():
         # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
  
         # Limit to 60 frames per second
-        clock.tick(120)
+        clock.tick(40)
  
         # Go ahead and update the screen with what we've drawn.
         pygame.display.flip()
