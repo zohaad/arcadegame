@@ -6,7 +6,7 @@ GAME_NAME = "Pygame Platformer"
 FRAME_RATE = 60
 
 # Physics
-GRAVITY_VALUE = 0.98
+GRAVITY_VALUE = 1
 JUMP_HEIGHT = 16
 
 # Screen dimensions

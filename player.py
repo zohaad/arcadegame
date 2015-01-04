@@ -45,7 +45,7 @@ class Player(pygame.sprite.Sprite):
         self.calc_grav()
 
         # Move left/right
-        self.rect.x += self.change_x
+        #self.rect.x += self.change_x
 
         if self.change_x > 0:
             self.image = self.rightanim.next()
@@ -76,6 +76,8 @@ class Player(pygame.sprite.Sprite):
         #     # Stop our vertical movement
         #     self.change_y = 0
 
+        changeset_size = 4
+
         for block in self.level.platform_list:
             # TODO: first check with self.rect.colliderect(block.rect) if not main platform
             if self.rect.colliderect(block.rect):
@@ -92,13 +94,19 @@ class Player(pygame.sprite.Sprite):
                 
 
                 if block.mask.overlap(self.mask, (offset_x, offset_y)):
-                    if self.change_y == 1:
-                        self.rect.y -= 8
+                    if block.mask.overlap(self.mask, (offset_x, offset_y-changeset_size)):
+                        self.rect.x -= self.change_x
+                    if not block.mask.overlap(self.mask, (offset_x, offset_y-changeset_size)):
+                        self.rect.y -= changeset_size
+                        if dir == 1:
+                            self.rect.x += changeset_size*2
+                        elif dir == -1:
+                            self.rect.x -= changeset_size*2
                     else:
                         self.rect.y -= self.change_y
-                        self.change_y = 0
-                    self.rect.x -= self.change_x
-                    print("Overlap");
+                    self.change_y = 0
+                    #print("Overlap-up")
+                    #print("Overlap");
 
                 # if block.mask.get_at((offset_x, offset_y)):
                 #     # print("Collides with block ", block, offset_x, offset_y)
@@ -128,7 +136,7 @@ class Player(pygame.sprite.Sprite):
         # See if we are on the ground.
         if self.rect.y >= SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
             self.change_y = 0
-            print("Resetting to screen height")
+            #print("Resetting to screen height")
             self.rect.y = SCREEN_HEIGHT - self.rect.height
 
     def jump(self):
