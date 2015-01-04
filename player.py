@@ -26,8 +26,8 @@ class Player(pygame.sprite.Sprite):
         width = 45
         height = 39
 
-    	self.leftanim = SpriteStripAnim('entities/sheep_left.png', (0,0,45,39), 4, (255,0,255), True, FRAME_RATE/8)
-    	self.rightanim = SpriteStripAnim('entities/sheep_right.png', (0,0,45,39), 4, (255,0,255), True, FRAME_RATE/8)
+        self.leftanim = SpriteStripAnim('entities/sheep_left.png', (0,0,45,39), 4, (255,0,255), True, FRAME_RATE/8)
+        self.rightanim = SpriteStripAnim('entities/sheep_right.png', (0,0,45,39), 4, (255,0,255), True, FRAME_RATE/8)
 
         self.image = self.leftanim.next()
         #self.image.blit(pygame.image.load("entities/Sheep_Walking_Right.gif"), (0,0))
