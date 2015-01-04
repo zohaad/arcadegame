@@ -3,11 +3,11 @@ import pygame
 
 # Global constants
 GAME_NAME = "Pygame Platformer"
-FRAME_RATE = 40
+FRAME_RATE = 60
 
 # Physics
-GRAVITY_VALUE = 0.66
-JUMP_HEIGHT = 15
+GRAVITY_VALUE = 0.98
+JUMP_HEIGHT = 16
 
 # Screen dimensions
 SCREEN_WIDTH  = 800

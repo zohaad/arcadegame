@@ -30,7 +30,7 @@ def main():
     player.level = current_level
 
     player.rect.x = 340
-    player.rect.y = SCREEN_HEIGHT - player.rect.height
+    player.rect.y = 351-player.rect.height
     active_sprite_list.add(player)
 
     #Loop until the user clicks the close button.

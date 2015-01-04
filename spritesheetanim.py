@@ -32,6 +32,10 @@ class SpriteStripAnim(object):
         self.f = self.frames
         return self
 
+    def reset(self):
+        self.i = len(self.images)
+        return self.next()
+
     def next(self):
         if self.i >= len(self.images):
             if not self.loop:
