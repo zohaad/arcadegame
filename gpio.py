@@ -6,7 +6,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(23, GPIO.IN) # GPIO 4
 
 def button_a():
-	print('heyt!');
+	print('hawt! :3');
 	print(GPIO.input(23));
 	return GPIO.input(23) == True
 def button_b():
@@ -29,12 +29,13 @@ device = uinput.Device([
 	uinput.KEY_C,
 	uinput.KEY_D,
 	])
+while True:
+	if button_a():
+		device.emit_click(uinput.KEY_A)
+	if button_b():
+		device.emit_click(uinput.KEY_B)
+	if button_c():
+		device.emit_click(uinput.KEY_C)
+	if button_d():
+		device.emit_click(uinput.KEY_D)
 
-while button_a():
-	device.emit_click(uinput.KEY_A)
-while button_b():
-	device.emit_click(uinput.KEY_B)
-while button_c():
-	device.emit_click(uinput.KEY_C)
-while button_d():
-	device.emit_click(uinput.KEY_D)
